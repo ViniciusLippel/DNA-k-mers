@@ -1,8 +1,6 @@
 package k_mer_generator;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class KmerGenerator{
 
@@ -26,7 +24,8 @@ public class KmerGenerator{
 			int begin = indexDif*i;
 			int end = indexDif*(i+1);
 			
-			System.out.println(i);
+			//System.out.println(i);
+			
 			if(i != numThreads-1) {
 				generate(begin, end);
 			}
@@ -41,7 +40,7 @@ public class KmerGenerator{
 	//Gera os k-mers
 	public void generate(int begin, int end) {
 		for(int i=begin; i<end; i++) {
-			System.out.println(dna.substring(i, i+(k)));
+			//System.out.println(dna.substring(i, i+(k)));
 			this.k_mers.add(dna.substring(i, i+(k)));
 		}
 	}
