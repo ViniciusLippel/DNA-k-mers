@@ -7,21 +7,33 @@ public class Main {
 
 	public static void main (String[] args) throws FileNotFoundException, InterruptedException {
 		
-		String dna = new FastaReader().read("src/k_mer_generator/test8.fa");
+		String dna = new FastaReader().read("dna_files/test9.fa");
 		
-		KmerGenerator kmer = new KmerGenerator(dna, 5);
+		runMultiThread(dna);
+		
+		runSerial(dna);
+	}
+	
+	public static void runMultiThread(String dna) throws InterruptedException {
+		
+		KmerGenerator kmer = new KmerGenerator(dna, 7);
+		
 		long startTime = System.nanoTime();
 		kmer.start();
-		//kmer.getExecutorService().awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		kmer.getExecutorService().awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 		long endTime = System.nanoTime();
-		//kmer.printKmers();
-		System.out.println("Multithread time: " + (endTime-startTime));
-		System.out.println("end");
+		
+		System.out.println("\nMultithread time: " + (endTime-startTime));
+	}
+	
+	public static void runSerial(String dna) {
 		
 		SerialKmerGenerator skmer = new SerialKmerGenerator(dna, 5);
-		startTime = System.nanoTime();
+		
+		long startTime = System.nanoTime();
 		skmer.start();
-		endTime = System.nanoTime();
-		System.out.println("Serial time: " + (endTime-startTime));
+		long endTime = System.nanoTime();
+		
+		System.out.println("\nSerial time: " + (endTime-startTime));
 	}
 }

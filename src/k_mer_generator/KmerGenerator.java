@@ -38,17 +38,23 @@ public class KmerGenerator{
 		
 		int indexDif = this.dna.length()/numThreads;
 		
+		System.out.println("DNA length: " + dna.length());
+		
 		for (int i=0; i<numThreads; i++) {
 			int begin = indexDif*i;
-			int end = indexDif*(i+1);
+			int end = indexDif*(i+1)-1;
+			
+			
 			
 			//System.out.println(i);
 			
 			if(i != numThreads-1) {
 				executorService.execute(generate(begin, end));
+				//System.out.println("Thread " + i + " begin " + begin + ", end " + end);
 			}
 			else {
-				executorService.execute(generate(begin, dna.length()-(k-1)));
+				executorService.execute(generate(begin, dna.length()-k));
+				//System.out.println("Thread " + i + " begin " + begin + ", end " + (dna.length()-k));
 			}
 		}
 		executorService.shutdown();
@@ -64,13 +70,16 @@ public class KmerGenerator{
 	//Gera os k-mers
 	public Runnable generate(int begin, int end) {
 		return new Runnable() {
+			
 			public void run() {
-				for(int i=begin; i<end; i++) {
-					//System.out.println(Thread.currentThread().getName() + " " + dna.substring(i, (i+k)));
+				
+				for(int i=begin; i<=end; i++) {
+					
 					try {
 						k_mers.add(dna.substring(i, (i+k)));
 					} catch(ArrayIndexOutOfBoundsException exception) {
-						System.out.println(i + ", " + (i+k));
+						//System.out.println(exception);
+						k_mers.add(dna.substring(i, (i+k))); 
 					}
 					
 				}
