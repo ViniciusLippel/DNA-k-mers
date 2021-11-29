@@ -26,7 +26,6 @@ public class KmerGenerator{
 		this.k_mers = k_mers;
 	}
 	
-	
 
 	public ExecutorService getExecutorService() {
 		return executorService;
@@ -41,12 +40,9 @@ public class KmerGenerator{
 		System.out.println("DNA length: " + dna.length());
 		
 		for (int i=0; i<numThreads; i++) {
+			
 			int begin = indexDif*i;
 			int end = indexDif*(i+1)-1;
-			
-			
-			
-			//System.out.println(i);
 			
 			if(i != numThreads-1) {
 				executorService.execute(generate(begin, end));
