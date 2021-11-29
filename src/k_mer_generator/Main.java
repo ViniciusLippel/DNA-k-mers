@@ -16,14 +16,16 @@ public class Main {
 	
 	public static void runMultiThread(String dna) throws InterruptedException {
 		
-		KmerGenerator kmer = new KmerGenerator(dna, 7);
+		KmerGenerator kmer = new KmerGenerator(dna, 3);
 		
 		long startTime = System.nanoTime();
 		kmer.start();
 		kmer.getExecutorService().awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 		long endTime = System.nanoTime();
 		
-		System.out.println("\nMultithread time: " + (endTime-startTime));
+		System.out.println("\nMultithread time: " + ((endTime-startTime)/1000000) + "ms");
+		
+		//kmer.printKmers();
 	}
 	
 	public static void runSerial(String dna) {
@@ -34,6 +36,6 @@ public class Main {
 		skmer.start();
 		long endTime = System.nanoTime();
 		
-		System.out.println("\nSerial time: " + (endTime-startTime));
+		System.out.println("\nSerial time: " + ((endTime-startTime)/1000000) + "ms");
 	}
 }
